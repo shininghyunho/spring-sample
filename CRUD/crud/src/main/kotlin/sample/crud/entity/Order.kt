@@ -9,7 +9,8 @@ class Order(
     @JoinColumn(name = "user_id")
     val user: User,
 
-    @OneToMany(mappedBy = "order")
+    // Order 삭제시 OrderItem 도 같이 삭제
+    @OneToMany(mappedBy = "order", cascade = [CascadeType.REMOVE])
     val orderItems: MutableSet<OrderItem> = hashSetOf(),
 ) {
     @Id

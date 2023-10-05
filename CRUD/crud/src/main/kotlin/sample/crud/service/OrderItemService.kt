@@ -17,7 +17,12 @@ class OrderItemService (
     }
 
     @Transactional(readOnly = true)
-    fun getOrderItem(id: Long) : OrderItem {
+    fun get(id: Long) : OrderItem {
         return orderItemRepository.findById(id).orElseThrow()
+    }
+
+    @Transactional
+    fun delete(id: Long) {
+        orderItemRepository.deleteById(id)
     }
 }
