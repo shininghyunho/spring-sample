@@ -2,6 +2,7 @@ package sample.crud.service
 
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
+import sample.crud.controller.dto.Item.ItemGetResponse
 import sample.crud.controller.dto.Item.ItemSaveRequest
 import sample.crud.controller.dto.Item.ItemUpdateRequest
 import sample.crud.entity.Item
@@ -14,6 +15,16 @@ class ItemService (
     @Transactional(readOnly = true)
     fun get(id: Long) : Item {
         return itemRepository.findById(id).orElseThrow()
+    }
+
+    @Transactional(readOnly = true)
+    fun getItemGetResponse(id: Long) : ItemGetResponse {
+        return ItemGetResponse(
+            id = id,
+            name = get(id).name,
+            price = get(id).price,
+            quantity = get(id).quantity,
+        )
     }
 
     @Transactional

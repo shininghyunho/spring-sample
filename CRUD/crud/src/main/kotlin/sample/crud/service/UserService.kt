@@ -2,6 +2,7 @@ package sample.crud.service
 
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
+import sample.crud.controller.dto.user.UserGetResponse
 import sample.crud.controller.dto.user.UserSaveRequest
 import sample.crud.controller.dto.user.UserUpdateRequest
 import sample.crud.entity.User
@@ -13,12 +14,12 @@ class UserService(
 ) {
     // TODO : 로그인 기능 구현은 따로 LOGIN 디렉토리에서 구현
     @Transactional
-    fun save(request: UserSaveRequest) {
-        userRepository.save(User(
+    fun save(request: UserSaveRequest) : Long {
+        return userRepository.save(User(
             email = request.email,
             nickname = request.nickname?: getRandomNickname(),
             password = request.password,
-        ))
+        )).id
     }
 
     private fun getRandomNickname() : String {
@@ -35,6 +36,15 @@ class UserService(
     @Transactional(readOnly = true)
     fun get(id: Long): User {
         return userRepository.findById(id).orElseThrow()
+    }
+
+    @Transactional(readOnly = true)
+    fun getUserGetResponse(id: Long): UserGetResponse {
+        return UserGetResponse(
+            id = id,
+            email = get(id).email,
+            nickname = get(id).nickname,
+        )
     }
 
     @Transactional

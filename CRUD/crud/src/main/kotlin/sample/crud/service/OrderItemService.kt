@@ -20,9 +20,4 @@ class OrderItemService (
     fun get(id: Long) : OrderItem {
         return orderItemRepository.findById(id).orElseThrow()
     }
-
-    @Transactional
-    fun delete(id: Long) {
-        orderItemRepository.deleteById(id)
-    }
 }
