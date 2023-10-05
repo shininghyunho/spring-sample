@@ -11,6 +11,8 @@ class OrderItem(
     @ManyToOne
     @JoinColumn(name = "item_id")
     val item: Item,
+
+    val count: Int,
 ) {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
