@@ -16,4 +16,8 @@ class UserService(
             password = request.password,
         ))
     }
+
+    fun getUser(id: Long): User {
+        return userRepository.findById(id).orElseThrow()
+    }
 }
