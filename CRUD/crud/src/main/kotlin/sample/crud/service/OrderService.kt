@@ -2,6 +2,8 @@ package sample.crud.service
 
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
+import sample.crud.common.response.ErrorCode
+import sample.crud.common.response.error.CustomException
 import sample.crud.controller.dto.order.OrderGetResponse
 import sample.crud.controller.dto.order.OrderSaveRequest
 import sample.crud.entity.Order
@@ -17,28 +19,24 @@ class OrderService (
     // save order
     @Transactional
     fun save(request: OrderSaveRequest) : Long {
-        // user id 로 user 조회
-        val user = userService.get(request.userId)
-        // order 저장
+        val user = userService.get(request.userId) ?: throw CustomException(errorCode = ErrorCode.NOT_FOUND, message = "존재하지 않는 유저입니다.")
         val order = orderRepository.save(Order(user = user))
-        // order item 저장
+        // order 에 새로운 orderItem 추가
         request.items.forEach {
-            val item = itemService.get(it.id)
-            val orderItem = orderItemService.get(orderItemService.save(order, item, it.count))
-            // order 에 order item 저장
+            val item = itemService.get(it.id) ?: throw CustomException(errorCode = ErrorCode.NOT_FOUND, message = "존재하지 않는 아이템입니다.")
+            val orderItem = orderItemService.get(orderItemService.save(order, item, it.count)) ?: throw CustomException(errorCode = ErrorCode.NOT_FOUND, message = "존재하지 않는 주문 아이템입니다.")
             order.orderItems.add(orderItem)
         }
         return order.id
     }
 
     @Transactional(readOnly = true)
-    fun get(id: Long) : Order {
-        return orderRepository.findById(id).orElseThrow()
-    }
+    fun get(id: Long) : Order? = orderRepository.findById(id).orElse(null)
+
 
     @Transactional(readOnly = true)
-    fun getOrderGetResponse(id: Long) : OrderGetResponse {
-        val order = get(id)
+    fun getOrderGetResponse(id: Long) : OrderGetResponse? {
+        val order = get(id) ?: return null
         return OrderGetResponse(
             id = order.id,
             userId = order.user.id,
@@ -54,7 +52,5 @@ class OrderService (
     }
 
     @Transactional
-    fun delete(id: Long) {
-        orderRepository.deleteById(id)
-    }
+    fun delete(id: Long) = orderRepository.delete(get(id) ?: throw CustomException(errorCode = ErrorCode.NOT_FOUND, message = "존재하지 않는 주문입니다."))
 }

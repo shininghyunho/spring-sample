@@ -19,5 +19,10 @@ enum class ErrorCode (
     val code: String,
     val message: String,
 ) {
+    /* 400 BAD_REQUEST */
+    DUPLICATED_VALUE(status = HttpStatus.BAD_REQUEST, code = "B001", message = "중복된 값이 존재합니다."),
+    NOT_FOUND(status = HttpStatus.BAD_REQUEST, code = "B002", message = "존재하지 않는 값입니다."),
 
+    /* 500 SERVER_ERROR */
+    INTERNAL_SERVER_ERROR(status = HttpStatus.INTERNAL_SERVER_ERROR, code = "S001", message = "서버 내부 에러"),
 }

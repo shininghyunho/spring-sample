@@ -4,4 +4,5 @@ import java.time.LocalDateTime
 
 class ErrorBody (
     errorCode: ErrorCode,
-) : CustomBody(status = errorCode.status.value(), message = errorCode.message)
+    message: String? = null
+) : CustomBody(status = errorCode.status.value(), message = message)

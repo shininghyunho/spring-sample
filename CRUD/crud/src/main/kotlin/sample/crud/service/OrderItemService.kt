@@ -17,7 +17,5 @@ class OrderItemService (
     }
 
     @Transactional(readOnly = true)
-    fun get(id: Long) : OrderItem {
-        return orderItemRepository.findById(id).orElseThrow()
-    }
+    fun get(id: Long) : OrderItem? = orderItemRepository.findById(id).orElse(null)
 }
