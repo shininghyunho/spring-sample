@@ -2,6 +2,8 @@ package sample.crud.entity
 
 import javax.persistence.*
 
+
+@Table(name = "USERS")
 @Entity
 class User(
     var email: String,
