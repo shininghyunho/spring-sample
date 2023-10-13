@@ -45,7 +45,7 @@ class UserService(
 
     @Transactional
     fun update(id: Long, request: UserUpdateRequest) {
-        val user = get(id) ?: throw CustomException(errorCode = ErrorCode.NOT_FOUND, message = "존재하지 않는 유저입니다.")
+        val user = get(id) ?: throw CustomException(ErrorCode.NOT_EXISTED_USER)
         user.update(
             email = request.email,
             nickname = request.nickname,
@@ -55,16 +55,16 @@ class UserService(
 
     @Transactional
     fun delete(id: Long) {
-        userRepository.delete(get(id) ?: throw CustomException(errorCode = ErrorCode.NOT_FOUND, message = "존재하지 않는 유저입니다."))
+        userRepository.delete(get(id) ?: throw CustomException(ErrorCode.NOT_EXISTED_USER))
     }
     private fun validateUserSave(email: String, nickname: String?) {
         // email
         if (userRepository.findByEmail(email) != null) {
-            throw CustomException(errorCode = ErrorCode.DUPLICATED_VALUE, message = "이미 존재하는 이메일입니다.")
+            throw CustomException(errorCode = ErrorCode.DUPLICATED_EMAIL)
         }
         // nickname
         if (nickname != null && userRepository.findByNickname(nickname) != null) {
-            throw CustomException(errorCode = ErrorCode.DUPLICATED_VALUE, message = "이미 존재하는 닉네임입니다.")
+            throw CustomException(errorCode = ErrorCode.DUPLICATED_NICKNAME)
         }
     }
 

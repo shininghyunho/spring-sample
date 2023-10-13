@@ -43,7 +43,7 @@ class ItemService (
     fun update(id: Long, request: ItemUpdateRequest) {
         validateItemUpdate(request.name)
 
-        val item = get(id) ?: throw CustomException(errorCode = ErrorCode.NOT_FOUND, message = "존재하지 않는 아이템입니다.")
+        val item = get(id) ?: throw CustomException(ErrorCode.NOT_EXISTED_ITEM)
         item.update(
             name = request.name,
             price = request.price,
@@ -52,16 +52,16 @@ class ItemService (
     }
 
     @Transactional
-    fun delete(id: Long) = itemRepository.delete(get(id) ?: throw CustomException(errorCode = ErrorCode.NOT_FOUND, message = "존재하지 않는 아이템입니다."))
+    fun delete(id: Long) = itemRepository.delete(get(id) ?: throw CustomException(ErrorCode.NOT_EXISTED_ITEM))
 
     private fun validateItemSave(name: String) {
-        if (isDuplicateName(name)) throw CustomException(errorCode = ErrorCode.DUPLICATED_VALUE, message = "중복된 이름입니다.")
+        if (isDuplicatedName(name)) throw CustomException(ErrorCode.DUPLICATED_ITEM_NAME)
     }
 
     private fun validateItemUpdate(name: String?) {
         if (name == null) return
-        if (isDuplicateName(name)) throw CustomException(errorCode = ErrorCode.DUPLICATED_VALUE, message = "중복된 이름입니다.")
+        if (isDuplicatedName(name)) throw CustomException(ErrorCode.DUPLICATED_ITEM_NAME)
     }
 
-    private fun isDuplicateName(name: String) : Boolean = itemRepository.existsByName(name)
+    private fun isDuplicatedName(name: String) : Boolean = itemRepository.existsByName(name)
 }

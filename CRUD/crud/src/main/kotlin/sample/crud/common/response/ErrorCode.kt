@@ -20,8 +20,18 @@ enum class ErrorCode (
     val message: String,
 ) {
     /* 400 BAD_REQUEST */
-    DUPLICATED_VALUE(status = HttpStatus.BAD_REQUEST, code = "B001", message = "중복된 값이 존재합니다."),
-    NOT_FOUND(status = HttpStatus.BAD_REQUEST, code = "B002", message = "존재하지 않는 값입니다."),
+    // USER
+    NOT_EXISTED_USER(status = HttpStatus.BAD_REQUEST, code = "U001", message = "존재하지 않는 유저입니다."),
+    DUPLICATED_EMAIL(status = HttpStatus.BAD_REQUEST, code = "U002", message = "이미 존재하는 이메일입니다."),
+    DUPLICATED_NICKNAME(status = HttpStatus.BAD_REQUEST, code = "U003", message = "이미 존재하는 닉네임입니다."),
+
+    // ITEM
+    NOT_EXISTED_ITEM(status = HttpStatus.BAD_REQUEST, code = "I001", message = "존재하지 않는 아이템입니다."),
+    DUPLICATED_ITEM_NAME(status = HttpStatus.BAD_REQUEST, code = "I002", message = "이미 존재하는 아이템 이름입니다."),
+
+    // ORDER
+    NOT_EXISTED_ORDER(status = HttpStatus.BAD_REQUEST, code = "O001", message = "존재하지 않는 주문입니다."),
+    NOT_EXISTED_ORDER_ITEM(status = HttpStatus.BAD_REQUEST, code = "O002", message = "존재하지 않는 주문 아이템입니다."),
 
     /* 500 SERVER_ERROR */
     INTERNAL_SERVER_ERROR(status = HttpStatus.INTERNAL_SERVER_ERROR, code = "S001", message = "서버 내부 에러"),
