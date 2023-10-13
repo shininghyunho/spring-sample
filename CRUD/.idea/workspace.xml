@@ -5,6 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="394b7bed-5b76-42f9-ad5e-518f334d0971" name="변경" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/crud/src/main/kotlin/sample/crud/common/response/error/CustomException.kt" beforeDir="false" afterPath="$PROJECT_DIR$/crud/src/main/kotlin/sample/crud/common/response/error/CustomException.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/crud/src/main/kotlin/sample/crud/common/response/error/GlobalExceptionHandler.kt" beforeDir="false" afterPath="$PROJECT_DIR$/crud/src/main/kotlin/sample/crud/common/response/error/GlobalExceptionHandler.kt" afterDir="false" />
     </list>
@@ -140,7 +141,7 @@
       <workItem from="1696990468311" duration="5448000" />
       <workItem from="1697088108912" duration="835000" />
       <workItem from="1697103521863" duration="596000" />
-      <workItem from="1697172358772" duration="11951000" />
+      <workItem from="1697172358772" duration="12275000" />
     </task>
     <servers />
   </component>
