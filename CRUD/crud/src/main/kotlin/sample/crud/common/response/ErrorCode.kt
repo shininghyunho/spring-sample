@@ -28,6 +28,7 @@ enum class ErrorCode (
     // ITEM
     NOT_EXISTED_ITEM(status = HttpStatus.BAD_REQUEST, code = "I001", message = "존재하지 않는 아이템입니다."),
     DUPLICATED_ITEM_NAME(status = HttpStatus.BAD_REQUEST, code = "I002", message = "이미 존재하는 아이템 이름입니다."),
+    NOT_ENOUGH_ITEM_QUANTITY(status = HttpStatus.BAD_REQUEST, code = "I003", message = "아이템의 재고가 부족합니다."),
 
     // ORDER
     NOT_EXISTED_ORDER(status = HttpStatus.BAD_REQUEST, code = "O001", message = "존재하지 않는 주문입니다."),
