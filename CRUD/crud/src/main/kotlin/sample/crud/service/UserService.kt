@@ -2,6 +2,8 @@ package sample.crud.service
 
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
+import sample.crud.common.response.ErrorCode
+import sample.crud.common.response.error.CustomException
 import sample.crud.controller.dto.user.UserGetResponse
 import sample.crud.controller.dto.user.UserSaveRequest
 import sample.crud.controller.dto.user.UserUpdateRequest
@@ -15,11 +17,55 @@ class UserService(
     // TODO : 로그인 기능 구현은 따로 LOGIN 디렉토리에서 구현
     @Transactional
     fun save(request: UserSaveRequest) : Long {
+        // validation
+        validateUserSave(request.email, request.nickname)
+
         return userRepository.save(User(
             email = request.email,
             nickname = request.nickname?: getRandomNickname(),
             password = request.password,
         )).id
+    }
+
+
+    @Transactional(readOnly = true)
+    fun get(id: Long): User? {
+        return userRepository.findById(id).orElse(null)
+    }
+
+    @Transactional(readOnly = true)
+    fun getUserGetResponse(id: Long): UserGetResponse? {
+        val user = get(id) ?: return null
+        return UserGetResponse(
+            id = user.id,
+            email = user.email,
+            nickname = user.nickname,
+        )
+    }
+
+    @Transactional
+    fun update(id: Long, request: UserUpdateRequest) {
+        val user = get(id) ?: throw CustomException(ErrorCode.NOT_EXISTED_USER)
+        user.update(
+            email = request.email,
+            nickname = request.nickname,
+            password = request.password
+        )
+    }
+
+    @Transactional
+    fun delete(id: Long) {
+        userRepository.delete(get(id) ?: throw CustomException(ErrorCode.NOT_EXISTED_USER))
+    }
+    private fun validateUserSave(email: String, nickname: String?) {
+        // email
+        if (userRepository.findByEmail(email) != null) {
+            throw CustomException(errorCode = ErrorCode.DUPLICATED_EMAIL)
+        }
+        // nickname
+        if (nickname != null && userRepository.findByNickname(nickname) != null) {
+            throw CustomException(errorCode = ErrorCode.DUPLICATED_NICKNAME)
+        }
     }
 
     private fun getRandomNickname() : String {
@@ -31,34 +77,5 @@ class UserService(
                 return randomNickname
             }
         }
-    }
-
-    @Transactional(readOnly = true)
-    fun get(id: Long): User {
-        return userRepository.findById(id).orElseThrow()
-    }
-
-    @Transactional(readOnly = true)
-    fun getUserGetResponse(id: Long): UserGetResponse {
-        return UserGetResponse(
-            id = id,
-            email = get(id).email,
-            nickname = get(id).nickname,
-        )
-    }
-
-    @Transactional
-    fun update(id: Long, request: UserUpdateRequest) {
-        val user = get(id)
-        user.update(
-            email = request.email,
-            nickname = request.nickname,
-            password = request.password
-        )
-    }
-
-    @Transactional
-    fun delete(id: Long) {
-        userRepository.deleteById(id)
     }
 }
