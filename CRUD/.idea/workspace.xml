@@ -5,9 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="394b7bed-5b76-42f9-ad5e-518f334d0971" name="변경" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/crud/src/main/kotlin/sample/crud/common/response/error/CustomException.kt" beforeDir="false" afterPath="$PROJECT_DIR$/crud/src/main/kotlin/sample/crud/common/response/error/CustomException.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/crud/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/crud/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/crud/src/main/kotlin/sample/crud/common/response/error/GlobalExceptionHandler.kt" beforeDir="false" afterPath="$PROJECT_DIR$/crud/src/main/kotlin/sample/crud/common/response/error/GlobalExceptionHandler.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/crud/src/main/kotlin/sample/crud/service/UserService.kt" beforeDir="false" afterPath="$PROJECT_DIR$/crud/src/main/kotlin/sample/crud/service/UserService.kt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -141,7 +142,7 @@
       <workItem from="1696990468311" duration="5448000" />
       <workItem from="1697088108912" duration="835000" />
       <workItem from="1697103521863" duration="596000" />
-      <workItem from="1697172358772" duration="12275000" />
+      <workItem from="1697172358772" duration="13003000" />
     </task>
     <servers />
   </component>

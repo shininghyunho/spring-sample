@@ -60,11 +60,11 @@ class UserService(
     private fun validateUserSave(email: String, nickname: String?) {
         // email
         if (userRepository.findByEmail(email) != null) {
-            throw CustomException(errorCode = ErrorCode.DUPLICATED_EMAIL)
+            throw CustomException(ErrorCode.DUPLICATED_EMAIL)
         }
         // nickname
         if (nickname != null && userRepository.findByNickname(nickname) != null) {
-            throw CustomException(errorCode = ErrorCode.DUPLICATED_NICKNAME)
+            throw CustomException(ErrorCode.DUPLICATED_NICKNAME)
         }
     }
 
