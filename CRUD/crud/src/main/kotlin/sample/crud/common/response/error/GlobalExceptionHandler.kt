@@ -13,10 +13,7 @@ class GlobalExceptionHandler {
     @ExceptionHandler(CustomException::class)
     fun handleCustomException(e: CustomException): ResponseEntity<CustomBody> {
         return CustomResponse(
-            body = ErrorBody(
-                errorCode = e.errorCode,
-                message = e.errorCode.message
-            )
+            body = ErrorBody(e.errorCode)
         ).toResponseEntity()
     }
 
