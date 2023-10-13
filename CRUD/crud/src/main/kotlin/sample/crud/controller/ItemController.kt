@@ -16,7 +16,7 @@ class ItemController (
     private val itemService: ItemService
 ) {
     @PostMapping("/items")
-    fun save(request: ItemSaveRequest) : ResponseEntity<CustomBody> {
+    fun save(@RequestBody request: ItemSaveRequest) : ResponseEntity<CustomBody> {
         return CustomResponse(
             body = SuccessBody(
                 data = itemService.save(request),
@@ -26,8 +26,8 @@ class ItemController (
         ).toResponseEntity()
     }
 
-    @GetMapping("/items")
-    fun get(@RequestParam id: Long) : ResponseEntity<CustomBody> {
+    @GetMapping("/items/{id}")
+    fun get(@PathVariable id: Long) : ResponseEntity<CustomBody> {
         return CustomResponse(
             body = SuccessBody(
                 data = itemService.getItemGetResponse(id),
@@ -37,8 +37,8 @@ class ItemController (
         ).toResponseEntity()
     }
 
-    @PutMapping("/items")
-    fun update(@RequestParam id: Long, request: ItemUpdateRequest) : ResponseEntity<CustomBody> {
+    @PutMapping("/items/{id}")
+    fun update(@PathVariable id: Long,@RequestBody request: ItemUpdateRequest) : ResponseEntity<CustomBody> {
         itemService.update(id, request)
         return CustomResponse(
             body = SuccessBody(
@@ -48,8 +48,8 @@ class ItemController (
         ).toResponseEntity()
     }
 
-    @DeleteMapping("/items")
-    fun delete(@RequestParam id: Long) : ResponseEntity<CustomBody> {
+    @DeleteMapping("/items/{id}")
+    fun delete(@PathVariable id: Long) : ResponseEntity<CustomBody> {
         itemService.delete(id)
         return CustomResponse(
             body = SuccessBody(

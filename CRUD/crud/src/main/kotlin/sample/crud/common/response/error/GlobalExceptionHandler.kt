@@ -15,7 +15,7 @@ class GlobalExceptionHandler {
         return CustomResponse(
             body = ErrorBody(
                 errorCode = e.errorCode,
-                message = e.message
+                message = e.errorCode.message
             )
         ).toResponseEntity()
     }
