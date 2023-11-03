@@ -29,23 +29,24 @@ class UserService(
 
 
     @Transactional(readOnly = true)
-    fun get(id: Long): User? {
+    fun getEntity(id: Long): User? {
         return userRepository.findById(id).orElse(null)
     }
 
     @Transactional(readOnly = true)
-    fun getUserGetResponse(id: Long): UserGetResponse? {
-        val user = get(id) ?: return null
-        return UserGetResponse(
-            id = user.id,
-            email = user.email,
-            nickname = user.nickname,
-        )
+    fun get(id: Long): UserGetResponse? {
+        return getEntity(id)?.let { user ->
+            UserGetResponse(
+                id = user.id,
+                email = user.email,
+                nickname = user.nickname,
+            )
+        }
     }
 
     @Transactional
     fun update(id: Long, request: UserUpdateRequest) {
-        val user = get(id) ?: throw CustomException(ErrorCode.NOT_EXISTED_USER)
+        val user = getEntity(id) ?: throw CustomException(ErrorCode.NOT_EXISTED_USER)
         user.update(
             email = request.email,
             nickname = request.nickname,
@@ -55,7 +56,7 @@ class UserService(
 
     @Transactional
     fun delete(id: Long) {
-        userRepository.delete(get(id) ?: throw CustomException(ErrorCode.NOT_EXISTED_USER))
+        userRepository.delete(getEntity(id) ?: throw CustomException(ErrorCode.NOT_EXISTED_USER))
     }
     private fun validateUserSave(email: String, nickname: String?) {
         // email

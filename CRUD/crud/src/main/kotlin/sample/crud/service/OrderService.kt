@@ -19,7 +19,7 @@ class OrderService (
     // save order
     @Transactional
     fun save(request: OrderSaveRequest) : Long {
-        val user = userService.get(request.userId) ?: throw CustomException(ErrorCode.NOT_EXISTED_USER)
+        val user = userService.getEntity(request.userId) ?: throw CustomException(ErrorCode.NOT_EXISTED_USER)
         val order = orderRepository.save(Order(user = user))
         // order 에 새로운 orderItem 추가
         request.items.forEach {

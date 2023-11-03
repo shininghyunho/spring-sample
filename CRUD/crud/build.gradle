@@ -19,7 +19,7 @@ repositories {
     mavenCentral()
 }
 
-def kotestVersion = "4.6.3"
+def kotestVersion = "5.4.2"
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     implementation 'org.springframework.boot:spring-boot-starter-web'
@@ -45,6 +45,6 @@ tasks.withType(KotlinCompile) {
     }
 }
 
-tasks.named('test') {
+tasks.named('test').configure {
     useJUnitPlatform()
 }

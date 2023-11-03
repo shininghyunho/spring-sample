@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.PutMapping
 import org.springframework.web.bind.annotation.RequestBody
-import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
 import sample.crud.common.response.CustomBody
 import sample.crud.common.response.CustomResponse
@@ -36,7 +35,7 @@ class UserController (
     fun get(@PathVariable id: Long) : ResponseEntity<CustomBody> {
         return CustomResponse(
             body = SuccessBody(
-                data = userService.getUserGetResponse(id),
+                data = userService.get(id),
                 status = HttpStatus.OK,
                 message = "유저 조회 성공"
             )
