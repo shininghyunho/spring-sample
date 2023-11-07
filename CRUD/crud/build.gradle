@@ -28,7 +28,7 @@ dependencies {
     runtimeOnly 'com.h2database:h2'
 
     // mockk
-    testImplementation("io.mockk:mockk:1.12.0") // mockk
+    testImplementation('io.mockk:mockk:1.13.4') // mockk
     // kotest
     testImplementation("io.kotest:kotest-runner-junit5:$kotestVersion") // kotest 를 junit 처럼 사용
     testImplementation("io.kotest:kotest-assertions-core-jvm:$kotestVersion") // kotest 의 assertion(shouldBe, shouldNotBe 등) 사용
