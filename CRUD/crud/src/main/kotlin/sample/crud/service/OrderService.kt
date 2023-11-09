@@ -23,7 +23,7 @@ class OrderService (
         val order = orderRepository.save(Order(user = user))
         // order 에 새로운 orderItem 추가
         request.items.forEach {
-            val item = itemService.get(it.id) ?: throw CustomException(ErrorCode.NOT_EXISTED_ITEM)
+            val item = itemService.getEntity(it.id) ?: throw CustomException(ErrorCode.NOT_EXISTED_ITEM)
             val orderItem = orderItemService.get(orderItemService.save(order, item, it.count)) ?: throw CustomException(ErrorCode.NOT_EXISTED_ORDER_ITEM)
             order.orderItems.add(orderItem)
         }

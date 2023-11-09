@@ -1,12 +1,10 @@
 package sample.crud.entity
 
-import javax.persistence.Entity
-import javax.persistence.GeneratedValue
-import javax.persistence.GenerationType
-import javax.persistence.Id
+import javax.persistence.*
 
 @Entity
 class Item(
+    @Column(unique = true)
     var name: String,
     var price: Long,
     var quantity: Int,

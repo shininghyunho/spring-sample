@@ -19,10 +19,6 @@ class UserServiceTest : BehaviorSpec({
         every { findByEmail(any()) } returns null
         every { findByNickname(any()) } returns null
     } // mock 객체 생성
-    val spyUserPository = spyk<UserRepository>() {
-        every { findByEmail(any()) } returns null
-        every { findByNickname(any()) } returns null
-    }
     val userService = UserService(userRepository) // mock 객체를 주입하여 테스트 대상 객체 생성
 
     Given("유저 저장시") {

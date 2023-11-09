@@ -15,11 +15,11 @@ class ItemService (
     private val itemRepository: ItemRepository
 ) {
     @Transactional(readOnly = true)
-    fun get(id: Long) : Item? = itemRepository.findById(id).orElse(null)
+    fun getEntity(id: Long) : Item? = itemRepository.findById(id).orElse(null)
 
     @Transactional(readOnly = true)
-    fun getItemGetResponse(id: Long) : ItemGetResponse? {
-        val item = get(id) ?: return null
+    fun get(id: Long) : ItemGetResponse? {
+        val item = getEntity(id) ?: return null
         return ItemGetResponse(
             id = id,
             name = item.name,
@@ -30,7 +30,7 @@ class ItemService (
 
     @Transactional
     fun save(request: ItemSaveRequest) : Long {
-        validateItemSave(request.name)
+        validateItemSave(request)
 
         return itemRepository.save(Item(
             name = request.name,
@@ -41,9 +41,9 @@ class ItemService (
 
     @Transactional
     fun update(id: Long, request: ItemUpdateRequest) {
-        validateItemUpdate(request.name)
+        validateItemUpdate(request)
 
-        val item = get(id) ?: throw CustomException(ErrorCode.NOT_EXISTED_ITEM)
+        val item = getEntity(id) ?: throw CustomException(ErrorCode.NOT_EXISTED_ITEM)
         item.update(
             name = request.name,
             price = request.price,
@@ -52,16 +52,17 @@ class ItemService (
     }
 
     @Transactional
-    fun delete(id: Long) = itemRepository.delete(get(id) ?: throw CustomException(ErrorCode.NOT_EXISTED_ITEM))
+    fun delete(id: Long) = itemRepository.delete(getEntity(id) ?: throw CustomException(ErrorCode.NOT_EXISTED_ITEM))
 
-    private fun validateItemSave(name: String) {
-        if (isDuplicatedName(name)) throw CustomException(ErrorCode.DUPLICATED_ITEM_NAME)
+    private fun validateItemSave(request: ItemSaveRequest) {
+        if (itemRepository.existsByName(request.name)) throw CustomException(ErrorCode.DUPLICATED_ITEM_NAME)
+        if (request.price < 0) throw CustomException(ErrorCode.INVALID_PRICE)
+        if (request.quantity < 0) throw CustomException(ErrorCode.INVALID_QUANTITY)
     }
 
-    private fun validateItemUpdate(name: String?) {
-        if (name == null) return
-        if (isDuplicatedName(name)) throw CustomException(ErrorCode.DUPLICATED_ITEM_NAME)
+    private fun validateItemUpdate(request: ItemUpdateRequest) {
+        request.name?.let { if (itemRepository.existsByName(it)) throw CustomException(ErrorCode.DUPLICATED_ITEM_NAME) }
+        request.price?.let { if (it < 0) throw CustomException(ErrorCode.INVALID_PRICE) }
+        request.quantity?.let { if (it < 0) throw CustomException(ErrorCode.INVALID_QUANTITY) }
     }
-
-    private fun isDuplicatedName(name: String) : Boolean = itemRepository.existsByName(name)
 }
