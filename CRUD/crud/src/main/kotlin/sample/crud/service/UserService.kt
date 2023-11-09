@@ -46,6 +46,7 @@ class UserService(
 
     @Transactional
     fun update(id: Long, request: UserUpdateRequest) {
+        validateUserUpdate(request.email, request.nickname)
         val user = getEntity(id) ?: throw CustomException(ErrorCode.NOT_EXISTED_USER)
         user.update(
             email = request.email,
@@ -64,7 +65,18 @@ class UserService(
             throw CustomException(ErrorCode.DUPLICATED_EMAIL)
         }
         // nickname
-        if (nickname != null && userRepository.findByNickname(nickname) != null) {
+        if (nickname !=null && userRepository.findByNickname(nickname) != null) {
+            throw CustomException(ErrorCode.DUPLICATED_NICKNAME)
+        }
+    }
+
+    private fun validateUserUpdate(email: String?, nickname: String?) {
+        // email
+        if (email != null && userRepository.findByEmail(email) != null) {
+            throw CustomException(ErrorCode.DUPLICATED_EMAIL)
+        }
+        // nickname
+        if (nickname !=null && userRepository.findByNickname(nickname) != null) {
             throw CustomException(ErrorCode.DUPLICATED_NICKNAME)
         }
     }
@@ -72,8 +84,9 @@ class UserService(
     private fun getRandomNickname() : String {
         // 중복 없는 USER_랜덤(숫자+영어 대소문자) 5자리
         // 가능한 조합의 경우의 수는 62^6-1 = 56,800,235,584
+        val length = 5
         while(true) {
-            val randomNickname = "USER_"+(0..4).map { (('a'..'z') + ('A'..'Z') + ('0'..'9')).random() }.joinToString("")
+            val randomNickname = "USER_"+(0 until length).map { (('a'..'z') + ('A'..'Z') + ('0'..'9')).random() }.joinToString("")
             if (userRepository.findByNickname(randomNickname) == null) {
                 return randomNickname
             }
