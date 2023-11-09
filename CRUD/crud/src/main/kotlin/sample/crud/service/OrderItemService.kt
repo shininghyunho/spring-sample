@@ -17,7 +17,7 @@ class OrderItemService (
     fun save(order: Order, item: Item, count: Int) : Long {
         // item 의 재고가 충분한지 확인
         if (item.quantity < count) throw CustomException(ErrorCode.NOT_ENOUGH_ITEM_QUANTITY)
-        return orderItemRepository.save(OrderItem(order = order, item = item, count = count)).id
+        return orderItemRepository.save(OrderItem(order = order,item = item, count = count)).id
     }
 
     @Transactional(readOnly = true)

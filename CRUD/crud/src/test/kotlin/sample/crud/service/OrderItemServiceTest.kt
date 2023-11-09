@@ -18,7 +18,9 @@ class OrderItemServiceTest : BehaviorSpec({
     val orderItemService = OrderItemService(orderItemRepository)
 
     Given("주문 아이템 저장시") {
-        val order = mockk<Order>()
+        val order = mockk<Order>() {
+            every { orderItems } returns mutableSetOf()
+        }
         val item = mockk<Item> {
             every { quantity } returns 10
         }
