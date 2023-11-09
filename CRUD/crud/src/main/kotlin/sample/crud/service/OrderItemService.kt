@@ -21,5 +21,5 @@ class OrderItemService (
     }
 
     @Transactional(readOnly = true)
-    fun get(id: Long) : OrderItem? = orderItemRepository.findById(id).orElse(null)
+    fun getEntity(id: Long) : OrderItem? = orderItemRepository.findById(id).orElse(null)
 }
