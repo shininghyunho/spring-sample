@@ -13,7 +13,7 @@ class Item(
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Long = 0
 
-    fun update(name: String?, price: Long?, quantity: Int?) {
+    fun update(name: String? = null, price: Long? = null, quantity: Int? = null) {
         name?.let { this.name = it }
         price?.let { this.price = it }
         quantity?.let { this.quantity = it }

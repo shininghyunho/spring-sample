@@ -1,13 +1,10 @@
 package sample.crud.test.service
 
-import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.core.spec.style.BehaviorSpec
 import io.kotest.matchers.shouldBe
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.verify
-import sample.crud.common.response.ErrorCode
-import sample.crud.common.response.error.CustomException
 import sample.crud.entity.Item
 import sample.crud.entity.Order
 import sample.crud.entity.OrderItem
@@ -22,23 +19,14 @@ class OrderItemServiceTest : BehaviorSpec({
         val order = mockk<Order>() {
             every { orderItems } returns mutableSetOf()
         }
-        val item = mockk<Item> {
-            every { quantity } returns 10
-        }
+        val item = Item(name = "item", price = 1000, quantity = 10)
         When("정상 저장하면") {
+            val beforeQuantity = item.quantity
             every { orderItemRepository.save(any()).id } returns 1L
             val count = 5
             val result = orderItemService.save(order, item, count)
             Then("주문 아이템이 저장된다") { verify (exactly = 1) { orderItemRepository.save(any()) } }
             Then("주문 아이템 id가 반환된다") { result shouldBe 1L }
-        }
-        When("재고보다 많은 수량을 주문하면") {
-            val count = 11
-            Then("재고 부족 에러가 발생한다") {
-                shouldThrow<CustomException> {
-                    orderItemService.save(order, item, count)
-                }.errorCode shouldBe ErrorCode.NOT_ENOUGH_ITEM_QUANTITY
-            }
         }
     }
 

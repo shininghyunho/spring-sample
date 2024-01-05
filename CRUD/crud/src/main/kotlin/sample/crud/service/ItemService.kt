@@ -54,6 +54,19 @@ class ItemService (
     @Transactional
     fun delete(id: Long) = itemRepository.delete(getEntity(id) ?: throw CustomException(ErrorCode.NOT_EXISTED_ITEM))
 
+    @Transactional
+    fun increaseQuantity(id: Long, quantity: Int) {
+        val item = getEntity(id) ?: throw CustomException(ErrorCode.NOT_EXISTED_ITEM)
+        item.update(quantity = item.quantity + quantity)
+    }
+
+    @Transactional
+    fun decreaseQuantity(id: Long, quantity: Int) {
+        val item = getEntity(id) ?: throw CustomException(ErrorCode.NOT_EXISTED_ITEM)
+        if(item.quantity < quantity) throw CustomException(ErrorCode.NOT_ENOUGH_ITEM_QUANTITY)
+        item.update(quantity = item.quantity - quantity)
+    }
+
     private fun validateItemSave(request: ItemSaveRequest) {
         if (itemRepository.existsByName(request.name)) throw CustomException(ErrorCode.DUPLICATED_ITEM_NAME)
         if (request.price < 0) throw CustomException(ErrorCode.INVALID_PRICE)

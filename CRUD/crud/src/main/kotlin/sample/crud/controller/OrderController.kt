@@ -45,4 +45,15 @@ class OrderController (
             )
         ).toResponseEntity()
     }
+
+    @PutMapping("/orders/{id}/cancel")
+    fun cancel(@PathVariable id: Long) : ResponseEntity<CustomBody> {
+        orderService.cancel(id)
+        return CustomResponse(
+            body = SuccessBody(
+                status = HttpStatus.OK,
+                message = "주문 취소 성공"
+            )
+        ).toResponseEntity()
+    }
 }
