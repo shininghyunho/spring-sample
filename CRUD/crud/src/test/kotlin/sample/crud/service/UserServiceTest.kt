@@ -5,7 +5,6 @@ import io.kotest.core.spec.style.BehaviorSpec
 import io.kotest.matchers.shouldBe
 import io.mockk.every
 import io.mockk.mockk
-import io.mockk.spyk
 import io.mockk.verify
 import sample.crud.common.response.ErrorCode
 import sample.crud.common.response.error.CustomException

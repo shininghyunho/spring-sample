@@ -9,8 +9,6 @@ import io.mockk.verify
 import sample.crud.common.response.ErrorCode
 import sample.crud.common.response.error.CustomException
 import sample.crud.controller.dto.order.OrderSaveRequest
-import sample.crud.entity.Order
-import sample.crud.entity.User
 import sample.crud.repository.OrderRepository
 
 class OrderServiceTest : BehaviorSpec({

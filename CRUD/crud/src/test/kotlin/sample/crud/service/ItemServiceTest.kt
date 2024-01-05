@@ -7,7 +7,6 @@ import io.kotest.matchers.shouldNotBe
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.verify
-import org.mockito.ArgumentMatchers.any
 import sample.crud.common.response.ErrorCode
 import sample.crud.common.response.error.CustomException
 import sample.crud.controller.dto.Item.ItemSaveRequest
