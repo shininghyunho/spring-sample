@@ -1,4 +1,4 @@
-package sample.crud.service
+package sample.crud.test.service
 
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.core.spec.style.BehaviorSpec
@@ -12,6 +12,7 @@ import sample.crud.controller.dto.user.UserSaveRequest
 import sample.crud.controller.dto.user.UserUpdateRequest
 import sample.crud.entity.User
 import sample.crud.repository.UserRepository
+import sample.crud.service.UserService
 
 class UserServiceTest : BehaviorSpec({
     val userRepository = mockk<UserRepository>(relaxed = true) {

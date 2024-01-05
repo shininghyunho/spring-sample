@@ -1,4 +1,4 @@
-package sample.crud.integration
+package sample.crud.test.integration
 
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import io.kotest.core.spec.style.BehaviorSpec
@@ -17,10 +17,9 @@ import sample.crud.common.response.ErrorCode
 import sample.crud.controller.dto.Item.ItemSaveRequest
 import sample.crud.entity.Item
 import sample.crud.repository.ItemRepository
+import sample.crud.support.IntegrationTest
 
-@Transactional
-@AutoConfigureMockMvc
-@SpringBootTest
+@IntegrationTest
 class IntemControllerTest(
     @Autowired val mockMvc: MockMvc,
     @Autowired val itemRepository: ItemRepository

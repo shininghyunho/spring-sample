@@ -1,31 +1,23 @@
-package sample.crud.integration
+package sample.crud.test.integration
 
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import io.kotest.core.spec.style.BehaviorSpec
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.string.shouldContain
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
-import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.http.HttpStatus
 import org.springframework.http.MediaType
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers
-import org.springframework.transaction.annotation.Transactional
 import sample.crud.common.response.ErrorCode
 import sample.crud.common.response.error.CustomException
 import sample.crud.controller.dto.user.UserSaveRequest
 import sample.crud.entity.User
 import sample.crud.repository.UserRepository
+import sample.crud.support.IntegrationTest
 
-/**
- * SpringBootTest : 스프링 컨텍스트를 로드하여 테스트에 사용
- * WebMvcTest : 스프링 MVC를 테스트하기 위한 어노테이션
- */
-@Transactional
-@AutoConfigureMockMvc
-@SpringBootTest
+@IntegrationTest
 class UserControllerTest(
     @Autowired val mockMvc: MockMvc,
     @Autowired val userRepository: UserRepository,

@@ -1,4 +1,4 @@
-package sample.crud.service
+package sample.crud.test.service
 
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.core.spec.style.BehaviorSpec
@@ -13,6 +13,7 @@ import sample.crud.controller.dto.Item.ItemSaveRequest
 import sample.crud.controller.dto.Item.ItemUpdateRequest
 import sample.crud.entity.Item
 import sample.crud.repository.ItemRepository
+import sample.crud.service.ItemService
 
 class ItemServiceTest : BehaviorSpec({
     val itemRepository = mockk<ItemRepository>(relaxed = true) // mock 객체 생성

@@ -1,4 +1,4 @@
-package sample.crud.service
+package sample.crud.test.service
 
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.core.spec.style.BehaviorSpec
@@ -10,6 +10,10 @@ import sample.crud.common.response.ErrorCode
 import sample.crud.common.response.error.CustomException
 import sample.crud.controller.dto.order.OrderSaveRequest
 import sample.crud.repository.OrderRepository
+import sample.crud.service.ItemService
+import sample.crud.service.OrderItemService
+import sample.crud.service.OrderService
+import sample.crud.service.UserService
 
 class OrderServiceTest : BehaviorSpec({
     val orderRepository = mockk<OrderRepository>(relaxed = true)
