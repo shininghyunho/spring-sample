@@ -6,7 +6,6 @@ import org.springframework.web.bind.annotation.*
 import sample.crud.common.response.CustomBody
 import sample.crud.common.response.CustomResponse
 import sample.crud.common.response.SuccessBody
-import sample.crud.controller.dto.order.OrderGetResponse
 import sample.crud.controller.dto.order.OrderSaveRequest
 import sample.crud.service.OrderService
 
@@ -29,7 +28,7 @@ class OrderController (
     fun get(@PathVariable id: Long) : ResponseEntity<CustomBody> {
         return CustomResponse(
             body = SuccessBody(
-                data = orderService.getOrderGetResponse(id),
+                data = orderService.get(id),
                 status = HttpStatus.OK,
                 message = "주문 조회 성공"
             )
@@ -43,6 +42,17 @@ class OrderController (
             body = SuccessBody(
                 status = HttpStatus.OK,
                 message = "주문 삭제 성공"
+            )
+        ).toResponseEntity()
+    }
+
+    @PutMapping("/orders/{id}/cancel")
+    fun cancel(@PathVariable id: Long) : ResponseEntity<CustomBody> {
+        orderService.cancel(id)
+        return CustomResponse(
+            body = SuccessBody(
+                status = HttpStatus.OK,
+                message = "주문 취소 성공"
             )
         ).toResponseEntity()
     }

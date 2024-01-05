@@ -19,24 +19,23 @@ class OrderService (
     // save order
     @Transactional
     fun save(request: OrderSaveRequest) : Long {
-        val user = userService.get(request.userId) ?: throw CustomException(ErrorCode.NOT_EXISTED_USER)
+        val user = userService.getEntity(request.userId) ?: throw CustomException(ErrorCode.NOT_EXISTED_USER)
         val order = orderRepository.save(Order(user = user))
-        // order 에 새로운 orderItem 추가
         request.items.forEach {
-            val item = itemService.get(it.id) ?: throw CustomException(ErrorCode.NOT_EXISTED_ITEM)
-            val orderItem = orderItemService.get(orderItemService.save(order, item, it.count)) ?: throw CustomException(ErrorCode.NOT_EXISTED_ORDER_ITEM)
-            order.orderItems.add(orderItem)
+            val item = itemService.getEntity(it.id) ?: throw CustomException(ErrorCode.NOT_EXISTED_ITEM)
+            orderItemService.save(order, item, it.count)
+            itemService.decreaseQuantity(item.id, it.count)
         }
         return order.id
     }
 
     @Transactional(readOnly = true)
-    fun get(id: Long) : Order? = orderRepository.findById(id).orElse(null)
+    fun getEntity(id: Long) : Order? = orderRepository.findById(id).orElse(null)
 
 
     @Transactional(readOnly = true)
-    fun getOrderGetResponse(id: Long) : OrderGetResponse? {
-        val order = get(id) ?: return null
+    fun get(id: Long) : OrderGetResponse? {
+        val order = getEntity(id) ?: return null
         return OrderGetResponse(
             id = order.id,
             userId = order.user.id,
@@ -51,6 +50,21 @@ class OrderService (
         )
     }
 
+    /**
+     * 주문 삭제 : 주문이 완료되었을때 호출
+     */
     @Transactional
-    fun delete(id: Long) = orderRepository.delete(get(id) ?: throw CustomException(ErrorCode.NOT_EXISTED_ORDER))
+    fun delete(id: Long) = orderRepository.delete(getEntity(id) ?: throw CustomException(ErrorCode.NOT_EXISTED_ORDER))
+
+    /**
+     * 주문 취소 : 주문 취소시 주문 상품의 재고를 다시 증가시켜야 한다.
+     */
+    @Transactional
+    fun cancel(id: Long) {
+        val order = getEntity(id) ?: throw CustomException(ErrorCode.NOT_EXISTED_ORDER)
+        order.orderItems.forEach { itemService.increaseQuantity(it.item.id, it.count) }
+        orderRepository.delete(order)
+    }
+
+
 }

@@ -1,7 +1,5 @@
 package sample.crud.common.response
 
-import java.time.LocalDateTime
-
 class ErrorBody (
     errorCode: ErrorCode,
     message: String? = null

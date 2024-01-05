@@ -6,7 +6,6 @@ import org.springframework.web.bind.annotation.*
 import sample.crud.common.response.CustomBody
 import sample.crud.common.response.CustomResponse
 import sample.crud.common.response.SuccessBody
-import sample.crud.controller.dto.Item.ItemGetResponse
 import sample.crud.controller.dto.Item.ItemSaveRequest
 import sample.crud.controller.dto.Item.ItemUpdateRequest
 import sample.crud.service.ItemService
@@ -30,7 +29,7 @@ class ItemController (
     fun get(@PathVariable id: Long) : ResponseEntity<CustomBody> {
         return CustomResponse(
             body = SuccessBody(
-                data = itemService.getItemGetResponse(id),
+                data = itemService.get(id),
                 status = HttpStatus.OK,
                 message = "아이템 조회 성공"
             )

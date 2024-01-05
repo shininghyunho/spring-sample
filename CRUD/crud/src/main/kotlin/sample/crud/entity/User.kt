@@ -6,7 +6,9 @@ import javax.persistence.*
 @Table(name = "USERS")
 @Entity
 class User(
+    @Column(unique = true)
     var email: String,
+    @Column(unique = true)
     var nickname: String,
     var password: String,
 
